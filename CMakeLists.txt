@@ -4,7 +4,7 @@ project(iai_interview)
 # ===========================
 #       Set Build Options
 # ===========================
-set(VERBOSE         OFF CACHE INTERNAL  "CMake execution debugging")
+set(VERBOSE         ON CACHE INTERNAL  "CMake execution debugging")
 set(BUILD_TESTS     ON CACHE INTERNAL   "Build all test executables")
 
 # ===========================
@@ -36,4 +36,22 @@ include_directories(
 # ===========================
 #     Build Targets
 # ===========================
-add_subdirectory(src)
+if(VERBOSE)
+message(STATUS "------ BUILDING Libraries")
+endif(VERBOSE)
+
+# IAI Interface
+add_library(iai_interface SHARED src/iai_interface.cpp)
+target_link_libraries(iai_interface ${LIBS})
+
+# IAI Text File Implementation
+add_library(iai_file_impl SHARED src/iai_implementation.cpp)
+target_link_libraries(iai_file_impl iai_interface ${LIBS})
+
+if(VERBOSE)
+message(STATUS "------ BUILDING Libraries")
+endif(VERBOSE)
+
+# Test executable
+add_executable(test_iai src/iai_main.cpp)
+target_link_libraries(test_iai iai_file_impl)
