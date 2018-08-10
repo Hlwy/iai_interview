@@ -27,6 +27,7 @@ public:
      virtual int open();
      virtual int close();
      virtual int read();
+     virtual int write();
 
      /** ------------------------
      *    	Getters

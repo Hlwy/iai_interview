@@ -34,6 +34,14 @@ public:
 	*  ERROR code.
 	*/
 	virtual int read() = 0;
+
+	/** 	@description: This function should execute the necessary methods for
+	* writing data to, or sending a request to, the input source
+	*
+	* 	@return: Should return a 0 upon successfully writing out to source, otherwise a
+	* negative int should be returned representing a specific ERROR code.
+	*/
+	virtual int write() = 0;
 };
 
 

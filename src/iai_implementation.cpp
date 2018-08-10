@@ -62,9 +62,16 @@ int IaiFile::read(){
 	return 0;
 }
 
+/**
+* @description: Do nothing for now
+*/
+int IaiFile::read(){
+	return 0;
+}
+
 
 vector<string> IaiFile::getReceivedData(bool verbose){
-	// Print out all the lines read in from file if 
+	// Print out all the lines read in from file if
 	if(verbose){
 		int n = this->_data.size();
 		for(int i = 0;i<n;i++){
