@@ -1,10 +1,11 @@
+#include "iai_implementation.h"
 #include <iostream>
-#include "include/iai_implementation.h"
 
 using namespace std;
 
-IaiFile::IaiFile(const string &filepath){
+IaiFile::IaiFile(string filepath){
 	this->_path = filepath;
+	this->open();
 }
 
 /**
@@ -19,12 +20,12 @@ IaiFile::~IaiFile(){
 */
 int IaiFile::open(){
 	// Attempt to open specified text file
-	ifstream tmpFile(this->_path.c_str());
+	this->_file.open(this->_path.c_str());
 	// If stream appears to be good then store stream handle internally
-	if(tmpFile.good()){
-		this->_file = tmpFile;
+	if(this->_file.good()){
+		printf("INFO: Successfully opened the text file, %s!\r\n", this->_path.c_str());
 	} else{
-		printf("ERROR: Could not open the text file, %s!\r\n", this->_path);
+		printf("ERROR: Could not open the text file, %s!\r\n", this->_path.c_str());
 		return -1;
 	}
 	return 0;
@@ -34,7 +35,7 @@ int IaiFile::open(){
 * @description: Be sure to close the data source text file
 */
 int IaiFile::close(){
-	printf("WARNING: Closing text file '%s'!\r\n", this->_path);
+	printf("WARNING: About to close the text file '%s'!\r\n", this->_path.c_str());
 	this->_file.close();
 	return 0;
 }
@@ -48,25 +49,30 @@ int IaiFile::read(){
 
 	// Check to make sure text file is open before attempting to read in data
 	if(this->_file.is_open()){
-		if(getline(this->_file, tmpData)){
-			// Store received data internally
-			this->_data = tmpData;
-			printf("INFO: Successfully read line of text file %s.\r\n",this->_path);
-		} else{
-			printf("INFO: Could not read any more\r\n");
-			return -3;
+		// Read in a single line from text file
+		while(getline(this->_file, tmpData)){
+			// Store received data internally somehow (either single line, vector of all lines, etc.)
+			this->_data.push_back(tmpData);
 		}
+		printf("----------\r\nINFO: Finished reading file.\r\n");
 	} else{
-		printf("ERROR: %s file is not opened\r\n", this->_path);
+		printf("ERROR: %s file is not opened\r\n", this->_path.c_str());
 		return -2;
 	}
 	return 0;
 }
 
 
-string IaiFile::getReceivedData(bool verbose){
-	if(verbose) printf("INFO: Currently stored data: %s\r\n",this->_data);
+vector<string> IaiFile::getReceivedData(bool verbose){
+	// Print out all the lines read in from file if 
+	if(verbose){
+		int n = this->_data.size();
+		for(int i = 0;i<n;i++){
+	          cout << this->_data.at(i) << ", ";
+	     }
+	     cout << endl;
+	}
 	return this->_data;
 }
 
-void setFilepath(const string &filepath){ this->_path = filepath;}
+void IaiFile::setFilepath(const string &filepath){ this->_path = filepath;}

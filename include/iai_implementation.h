@@ -3,7 +3,8 @@
 
 #include <string.h>
 #include <fstream> 		// For: ifstream
-#include "include/iai_interface.h"
+#include <vector>
+#include "iai_interface.h"
 
 using namespace std;
 
@@ -12,12 +13,12 @@ using namespace std;
 * ================================================================================ */
 class IaiFile : public IaiInterface{
 private:
-     string _path;		// OS filepath of text file used for input
-     string _data;		// Storage of implementation specific typed data
-	ifstream _file;	// The file handle for the established data source
+     string _path;			// OS filepath of text file used for input
+	ifstream _file;		// The file handle for the established data source
+	vector<string> _data;	// Storage of implementation specific typed data
 public:
      // Constructors & Deconstructors
-     IaiFile(const string &filepath);
+     IaiFile(string filepath);
      ~IaiFile();
 
      /** ----------------------------------------------------------------------
@@ -30,7 +31,7 @@ public:
      /** ------------------------
      *    	Getters
      * ------------------------- */
-     string getReceivedData(bool verbose = true);
+     vector<string> getReceivedData(bool verbose = true);
 
 	/** ------------------------
      *    	Setters

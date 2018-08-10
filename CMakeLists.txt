@@ -40,13 +40,10 @@ if(VERBOSE)
 message(STATUS "------ BUILDING Libraries")
 endif(VERBOSE)
 
-# IAI Interface
-add_library(iai_interface SHARED src/iai_interface.cpp)
-target_link_libraries(iai_interface ${LIBS})
 
 # IAI Text File Implementation
 add_library(iai_file_impl SHARED src/iai_implementation.cpp)
-target_link_libraries(iai_file_impl iai_interface ${LIBS})
+target_link_libraries(iai_file_impl ${LIBS})
 
 if(VERBOSE)
 message(STATUS "------ BUILDING Libraries")
