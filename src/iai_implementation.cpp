@@ -65,7 +65,7 @@ int IaiFile::read(){
 /**
 * @description: Do nothing for now
 */
-int IaiFile::read(){
+int IaiFile::write(){
 	return 0;
 }
 
